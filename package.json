@@ -36,6 +36,7 @@
     "test:all": "tap --jobs=1 --timeout=600 \"packages/cactus-*/src/test/typescript/{unit,integration}/\"",
     "test:unit": "tap --timeout=600 \"packages/cactus-*/src/test/typescript/unit/\"",
     "test:integration": "tap --jobs=1 --timeout=600 \"packages/cactus-*/src/test/typescript/integration/\"",
+    "test": "./node_modules/karma/bin/karma start karma.conf.js",
     "changelog": "conventional-changelog --infile CHANGELOG.md --outfile CHANGELOG.md && git add CHANGELOG.md",
     "commit": "git-cz --signoff",
     "prettier": "prettier --write --config .prettierrc.json \"./**/*.{ts,js}\"",
@@ -60,11 +61,15 @@
     "eslint-plugin-standard": "4.0.0",
     "husky": "4.2.5",
     "inquirer": "7.1.0",
+    "karma": "^5.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^3.3.1",
+    "karma-typescript": "^5.0.3",
     "lerna": "3.20.2",
     "lint-staged": "10.2.2",
     "npm-run-all": "4.1.5",
     "prettier": "2.0.5",
-    "secp256k1": "4.0.0",
+    "secp256k1": "^4.0.0",
     "source-map-loader": "0.2.4",
     "tap": "14.10.6",
     "ts-loader": "6.2.1",
@@ -87,5 +92,11 @@
   },
   "lint-staged": {
     "./**/*.{ts,js}": "prettier --write --config .prettierrc.json"
+  },
+  "dependencies": {
+    "@types/json-stable-stringify": "^1.0.32",
+    "@types/secp256k1": "^4.0.1",
+    "json-stable-stringify": "^1.0.1",
+    "sha3": "^2.1.2"
   }
 }

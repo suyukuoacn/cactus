@@ -1,0 +1,20 @@
+{
+    "nested": {
+      "testMessage": {
+        "fields": {
+          "field1": {
+            "type": "string",
+            "id": 1
+          },
+          "field2": {
+            "type": "string",
+            "id": 2
+          },
+          "field3": {
+            "type": "double",
+            "id": 3
+          }
+        }
+      }
+    }
+  }
