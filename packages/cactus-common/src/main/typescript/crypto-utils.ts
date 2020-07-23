@@ -3,10 +3,10 @@ import sha3 from "sha3";
 import stringify from "json-stable-stringify";
 
 export class CryptoUtils {
-  private cryptoMethod: String;
+  private cryptoMethod: string;
   private privateKey: any;
 
-  constructor(public method: String, privateKey: any) {
+  constructor(public method: string, privateKey: any) {
     this.cryptoMethod = method;
     this.privateKey = privateKey;
   }
@@ -17,9 +17,11 @@ export class CryptoUtils {
    * @returns Generated signature
    */
   public sign(msg: any): Uint8Array {
+    // FIXME use the logger factory to get a logger instead
+    // tslint:disable-next-line: no-console
     console.log(stringify(msg));
     const pkey = Buffer.from(this.privateKey, `hex`);
-    var signObj = secp256k1.ecdsaSign(
+    const signObj = secp256k1.ecdsaSign(
       Buffer.from(this.dataHash(msg), `hex`),
       pkey
     );

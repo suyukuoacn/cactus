@@ -3,9 +3,8 @@ const tap = require("tap");
 
 import { CryptoUtils } from "../../../main/typescript/crypto-utils";
 
-const { randomBytes } = require("crypto");
-const secp256k1 = require("secp256k1");
-const stringify = require("json-stable-stringify");
+import { randomBytes } from "crypto";
+import secp256k1 from "secp256k1";
 
 tap.test("Simple JSON Test", async (assert: any) => {
   // generate privKey
@@ -94,13 +93,15 @@ tap.test("Circular JSON Test", async (assert: any) => {
 
   const date: Date = new Date();
 
-  var obj: any = {
+  const obj: any = {
     a: "foo",
-    b: obj,
   };
+  obj.b = obj;
 
   const sign1 = cryptoUtils.sign(obj);
 
+  // FIXME use the logger factory to get a logger instead
+  // tslint:disable-next-line: no-console
   console.log(sign1);
 });
 
