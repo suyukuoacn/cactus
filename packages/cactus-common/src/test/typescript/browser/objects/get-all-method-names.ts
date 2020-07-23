@@ -1,9 +1,8 @@
-// tslint:disable-next-line: no-var-requires
-const tap = require("tap");
+import test from "tape";
 import { Objects } from "../../../../main/typescript/public-api";
 import { A } from "../../fixtures/dummy-classes";
 
-tap.test("handles inheritance correctly", (assert: any) => {
+test("handles inheritance correctly", (assert: any) => {
   const a = new A();
   const methodNames = Objects.getAllMethodNames(a);
   assert.ok(Array.isArray(methodNames), "expect an arran of strings returned");
