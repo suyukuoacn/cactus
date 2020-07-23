@@ -6,6 +6,8 @@ module.exports = (config) => {
 
     frameworks: ["tap"],
 
+    // Use "Chrome" if you need to debug tests with the actual browser window
+    // being open and you want to use Chrome Dev Tools for it.
     browsers: [
       // 'Electron',
       // "ElectronWithGui",
