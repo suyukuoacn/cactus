@@ -1,12 +1,11 @@
-// tslint:disable-next-line: no-var-requires
-const tap = require("tap");
+import test from "tape";
 
 import { CryptoUtils } from "../../../main/typescript/crypto-utils";
 
 import { randomBytes } from "crypto";
 import secp256k1 from "secp256k1";
 
-tap.test("Simple JSON Test", async (assert: any) => {
+test("Simple JSON Test", async (assert: any) => {
   // generate privKey
   let privKey;
   do {
@@ -22,9 +21,10 @@ tap.test("Simple JSON Test", async (assert: any) => {
   const sign2 = cryptoUtils.sign(payload2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
-tap.test("Simple Nested JSON Test", async (assert: any) => {
+test("Simple Nested JSON Test", async (assert: any) => {
   // generate privKey
   let privKey;
   do {
@@ -42,9 +42,10 @@ tap.test("Simple Nested JSON Test", async (assert: any) => {
   const sign2 = cryptoUtils.sign(outer2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
-tap.test("Simple Date JSON Test", async (assert: any) => {
+test("Simple Date JSON Test", async (assert: any) => {
   // generate privKey
   let privKey;
   do {
@@ -80,9 +81,10 @@ tap.test("Simple Date JSON Test", async (assert: any) => {
   const sign2 = cryptoUtils.sign(outer2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
-tap.test("Circular JSON Test", async (assert: any) => {
+test("Circular JSON Test", async (assert: any) => {
   // generate privKey
   let privKey;
   do {
@@ -99,9 +101,10 @@ tap.test("Circular JSON Test", async (assert: any) => {
   obj.b = obj;
 
   assert.throws(() => cryptoUtils.sign(obj));
+  assert.end();
 });
 
-tap.test("Very Signature Test", async (assert: any) => {
+test("Very Signature Test", async (assert: any) => {
   // generate privKey
   let privKey;
   do {
@@ -117,4 +120,5 @@ tap.test("Very Signature Test", async (assert: any) => {
   const verify = cryptoUtils.verifySign(payload1, sign1, pubKey);
 
   assert.equals("true", verify);
+  assert.end();
 });
