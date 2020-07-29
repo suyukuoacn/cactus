@@ -1,3 +1,6 @@
+import { Logger } from "./logging/logger";
+import { LoggerProvider } from "./logging/logger-provider";
+
 import secp256k1 from "secp256k1";
 import sha3 from "sha3";
 import stringify from "json-stable-stringify";
@@ -5,10 +8,16 @@ import stringify from "json-stable-stringify";
 export class CryptoUtils {
   private cryptoMethod: string;
   private privateKey: any;
+  private readonly logger: Logger;
 
   constructor(public method: string, privateKey: any) {
     this.cryptoMethod = method;
     this.privateKey = privateKey;
+
+    this.logger = LoggerProvider.getOrCreate({
+      label: "crypto-utils",
+      level: "debug",
+    });
   }
 
   /**
@@ -19,7 +28,7 @@ export class CryptoUtils {
   public sign(msg: any): Uint8Array {
     // FIXME use the logger factory to get a logger instead
     // tslint:disable-next-line: no-console
-    console.log(stringify(msg));
+    this.logger.info("Message to sign: " + stringify(msg));
     const pkey = Buffer.from(this.privateKey, `hex`);
     const signObj = secp256k1.ecdsaSign(
       Buffer.from(this.dataHash(msg), `hex`),
@@ -40,7 +49,11 @@ export class CryptoUtils {
     signature: Uint8Array,
     pubKey: Uint8Array
   ): boolean {
-    return secp256k1.ecdsaVerify(msg, signature, pubKey);
+    return secp256k1.ecdsaVerify(
+      signature,
+      Buffer.from(this.dataHash(msg), `hex`),
+      pubKey
+    );
   }
 
   /**

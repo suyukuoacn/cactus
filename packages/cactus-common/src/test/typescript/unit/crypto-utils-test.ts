@@ -6,15 +6,16 @@ import { CryptoUtils } from "../../../main/typescript/crypto-utils";
 import { randomBytes } from "crypto";
 import secp256k1 from "secp256k1";
 
+// generate privKey
+let privKey: any;
+do {
+  privKey = randomBytes(32);
+} while (!secp256k1.privateKeyVerify(privKey));
+const pubKey = secp256k1.publicKeyCreate(privKey);
+
+const cryptoUtils = new CryptoUtils("secp256k1", privKey);
+
 tap.test("Simple JSON Test", async (assert: any) => {
-  // generate privKey
-  let privKey;
-  do {
-    privKey = randomBytes(32);
-  } while (!secp256k1.privateKeyVerify(privKey));
-
-  const cryptoUtils = new CryptoUtils("secp256k1", privKey);
-
   const payload1 = { field1: "test11", field2: "test12", field3: 13 };
   const sign1 = cryptoUtils.sign(payload1);
 
@@ -25,14 +26,6 @@ tap.test("Simple JSON Test", async (assert: any) => {
 });
 
 tap.test("Simple Nested JSON Test", async (assert: any) => {
-  // generate privKey
-  let privKey;
-  do {
-    privKey = randomBytes(32);
-  } while (!secp256k1.privateKeyVerify(privKey));
-
-  const cryptoUtils = new CryptoUtils("secp256k1", privKey);
-
   const inner1 = { someProperty: "cool", otherStuff: "also cool" };
   const outer1 = { innerProperty: inner1, outerProperty: "test" };
   const sign1 = cryptoUtils.sign(outer1);
@@ -45,14 +38,6 @@ tap.test("Simple Nested JSON Test", async (assert: any) => {
 });
 
 tap.test("Simple Date JSON Test", async (assert: any) => {
-  // generate privKey
-  let privKey;
-  do {
-    privKey = randomBytes(32);
-  } while (!secp256k1.privateKeyVerify(privKey));
-
-  const cryptoUtils = new CryptoUtils("secp256k1", privKey);
-
   const date: Date = new Date();
 
   const inner1 = {
@@ -83,38 +68,19 @@ tap.test("Simple Date JSON Test", async (assert: any) => {
 });
 
 tap.test("Circular JSON Test", async (assert: any) => {
-  // generate privKey
-  let privKey;
-  do {
-    privKey = randomBytes(32);
-  } while (!secp256k1.privateKeyVerify(privKey));
-
-  const cryptoUtils = new CryptoUtils("secp256k1", privKey);
-
   const date: Date = new Date();
 
-  const obj: any = {
-    a: "foo",
-  };
+  const obj: any = { a: "foo" };
   obj.b = obj;
 
   assert.throws(() => cryptoUtils.sign(obj));
 });
 
 tap.test("Very Signature Test", async (assert: any) => {
-  // generate privKey
-  let privKey;
-  do {
-    privKey = randomBytes(32);
-  } while (!secp256k1.privateKeyVerify(privKey));
-  const pubKey = secp256k1.publicKeyCreate(privKey);
-
-  const cryptoUtils = new CryptoUtils("secp256k1", privKey);
-
   const payload1 = { field1: "test11", field2: "test12", field3: 13 };
   const sign1 = cryptoUtils.sign(payload1);
 
   const verify = cryptoUtils.verifySign(payload1, sign1, pubKey);
 
-  assert.equals("true", verify);
+  assert.equals(true, verify);
 });
