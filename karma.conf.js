@@ -17,7 +17,10 @@ module.exports = (config) => {
     ],
 
     files: [
-      { pattern: "packages/cactus-*/src/test/typescript/browser/**/*.ts" },
+      {
+        pattern:
+          "packages/cactus-common/src/test/typescript/unit/JsStringObjectTest.ts",
+      },
     ],
 
     plugins: [
