@@ -2,15 +2,15 @@
 import test from "tape";
 
 import {
-  JsStringObject,
+  JsObjectSigner,
   IJsStringObjectOptions,
-} from "../../../main/typescript/JsStringObject";
+} from "../../../main/typescript/js-object-signer";
 
 import crypto from "crypto";
 import secp256k1 from "secp256k1";
 import stringify from "json-stable-stringify";
 
-const keyPairs = JsStringObject.getKeyPairs();
+const keyPairs = JsObjectSigner.getKeyPairs();
 
 const hashFunction = function (data: any): string {
   return crypto.createHash("sha256").update(stringify(data)).digest("hex");
@@ -41,7 +41,7 @@ test("Simple JSON Test", async (assert: any) => {
     privateKey: keyPairs.privateKey,
     logLevel: "debug",
   };
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const payload1 = { field1: "test11", field2: "test12", field3: 13 };
   const sign1 = jsStringObject.sign(payload1);
@@ -50,6 +50,7 @@ test("Simple JSON Test", async (assert: any) => {
   const sign2 = jsStringObject.sign(payload2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
 test("Simple Nested JSON Test", async (assert: any) => {
@@ -57,7 +58,7 @@ test("Simple Nested JSON Test", async (assert: any) => {
     privateKey: keyPairs.privateKey,
     logLevel: "debug",
   };
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const inner1 = { someProperty: "cool", otherStuff: "also cool" };
   const outer1 = { innerProperty: inner1, outerProperty: "test" };
@@ -68,6 +69,7 @@ test("Simple Nested JSON Test", async (assert: any) => {
   const sign2 = jsStringObject.sign(outer2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
 test("Simple Date JSON Test", async (assert: any) => {
@@ -75,7 +77,7 @@ test("Simple Date JSON Test", async (assert: any) => {
     privateKey: keyPairs.privateKey,
     logLevel: "debug",
   };
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const date: Date = new Date();
 
@@ -104,6 +106,7 @@ test("Simple Date JSON Test", async (assert: any) => {
   const sign2 = jsStringObject.sign(outer2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
 test("Circular JSON Test", async (assert: any) => {
@@ -111,7 +114,7 @@ test("Circular JSON Test", async (assert: any) => {
     privateKey: keyPairs.privateKey,
     logLevel: "debug",
   };
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const date: Date = new Date();
 
@@ -119,6 +122,7 @@ test("Circular JSON Test", async (assert: any) => {
   obj.b = obj;
 
   assert.throws(() => jsStringObject.sign(obj));
+  assert.end();
 });
 
 test("Very Signature Test", async (assert: any) => {
@@ -126,7 +130,7 @@ test("Very Signature Test", async (assert: any) => {
     privateKey: keyPairs.privateKey,
     logLevel: "debug",
   };
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const payload1 = { field1: "test11", field2: "test12", field3: 13 };
   const sign1 = jsStringObject.sign(payload1);
@@ -134,6 +138,7 @@ test("Very Signature Test", async (assert: any) => {
   const verify = jsStringObject.verify(payload1, sign1, keyPairs.publicKey);
 
   assert.equals(true, verify);
+  assert.end();
 });
 
 test("Test optional sign function", async (assert: any) => {
@@ -143,7 +148,7 @@ test("Test optional sign function", async (assert: any) => {
     signatureFunc: signFunction,
   };
 
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const inner1 = { someProperty: "cool", otherStuff: "also cool" };
   const outer1 = { innerProperty: inner1, outerProperty: "test" };
@@ -154,6 +159,7 @@ test("Test optional sign function", async (assert: any) => {
   const sign2 = jsStringObject.sign(outer2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
 test("Test optional verify sign function", async (assert: any) => {
@@ -164,7 +170,7 @@ test("Test optional verify sign function", async (assert: any) => {
     verifySignatureFunc: verifySignFunction,
   };
 
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const inner1 = { someProperty: "cool", otherStuff: "also cool" };
   const outer1 = { innerProperty: inner1, outerProperty: "test" };
@@ -173,6 +179,7 @@ test("Test optional verify sign function", async (assert: any) => {
   const verify = jsStringObject.verify(outer1, sign1, keyPairs.publicKey);
 
   assert.equals(true, verify);
+  assert.end();
 });
 
 test("Test optional hash function", async (assert: any) => {
@@ -182,7 +189,7 @@ test("Test optional hash function", async (assert: any) => {
     hashFunc: hashFunction,
   };
 
-  const jsStringObject = new JsStringObject(jsStringObjectOption);
+  const jsStringObject = new JsObjectSigner(jsStringObjectOption);
 
   const inner1 = { someProperty: "cool", otherStuff: "also cool" };
   const outer1 = { innerProperty: inner1, outerProperty: "test" };
@@ -193,6 +200,7 @@ test("Test optional hash function", async (assert: any) => {
   const sign2 = jsStringObject.sign(outer2);
 
   assert.equals(sign1.toString, sign2.toString);
+  assert.end();
 });
 
 test("Test missing required constructor field", async (assert: any) => {
@@ -201,8 +209,9 @@ test("Test missing required constructor field", async (assert: any) => {
       privateKey: undefined,
     };
 
-    const jsStringObject = new JsStringObject(jsStringObjectOption);
+    const jsStringObject = new JsObjectSigner(jsStringObjectOption);
   } catch (e) {
     assert.equal(e.message, "JsStringObject#ctor options.privateKey falsy.");
+    assert.end();
   }
 });

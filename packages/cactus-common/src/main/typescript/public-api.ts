@@ -4,10 +4,10 @@ export { LogLevelDesc } from "loglevel";
 export { Objects } from "./objects";
 export { Strings } from "./strings";
 export {
-  JsStringObject,
+  JsObjectSigner as JsStringObject,
   IJsStringObjectOptions,
   IJsStringObjectKeyPairs,
   SignatureFunction,
   VerifySignatureFunction,
   HashFunction,
-} from "./JsStringObject";
+} from "./js-object-signer";

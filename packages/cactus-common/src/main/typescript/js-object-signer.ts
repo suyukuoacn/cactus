@@ -28,7 +28,7 @@ export interface IJsStringObjectKeyPairs {
   publicKey: any;
 }
 
-export class JsStringObject {
+export class JsStringObjectSigner {
   private privateKey: any;
   private signatureFunc: any;
   private verifySignatureFunc: any;
@@ -49,7 +49,7 @@ export class JsStringObject {
     this.hashFunc = options.hashFunc;
 
     this.logger = LoggerProvider.getOrCreate({
-      label: "JsStringObject",
+      label: "js-string-object",
       level: options.logLevel || "INFO",
     });
   }
