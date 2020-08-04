@@ -18,7 +18,7 @@ module.exports = (config) => {
 
     files: [
       {
-        pattern: "packages/cactus-common/src/test/typescript/unit/**/*.ts",
+        pattern: "packages/cactus-common/src/test/typescript/unit/*.ts",
       },
     ],
 
